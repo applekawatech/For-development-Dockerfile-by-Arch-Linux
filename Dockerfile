@@ -22,11 +22,11 @@ RUN sed -i 's/#Color/Color/' /etc/pacman.conf && \
 # Update the system after pacman configuration changes
 RUN pacman -Syu --noconfirm
 
-# Install Anaconda using yay with debug symbols disabled
-RUN su - builder -c "yay -G anaconda && cd anaconda && makepkg -si --nocheck --skipinteg --skippgpcheck"
+# Install Miniconda using yay
+RUN su - builder -c "yay -S --noconfirm miniconda3"
 
-# Initialize Anaconda
-RUN echo 'source /opt/anaconda/bin/activate' >> /etc/bash.bashrc
+# Initialize Miniconda
+RUN echo 'source /opt/miniconda3/bin/activate' >> /etc/bash.bashrc
 
 # Install Visual Studio Code Server
 RUN curl -fsSL https://code-server.dev/install.sh | sh
