@@ -28,9 +28,19 @@ RUN su - builder -c "yay -S --noconfirm anaconda"
 # Initialize Anaconda
 RUN echo 'source /opt/anaconda/bin/activate' >> /etc/bash.bashrc
 
-# Install Visual Studio Code Server
-RUN curl -fsSL https://code-server.dev/install.sh | sh
+# Install Visual Studio Code
+RUN su - builder -c "yay -S --noconfirm visual-studio-code-bin"
 
+# Switch to builder user
+USER builder
+
+# Install VS Code extensions
+RUN code --install-extension MS-CEINTL.vscode-language-pack-ja && \
+    code --install-extension ms-toolsai.jupyter && \
+    code --install-extension GitHub.vscode-pull-request-github && \
+    code --install-extension GitHub.copilot && \
+    code --install-extension ms-vsliveshare.vsliveshare
+    
 # Create a workspace directory
 RUN mkdir /workspace
 WORKDIR /workspace
