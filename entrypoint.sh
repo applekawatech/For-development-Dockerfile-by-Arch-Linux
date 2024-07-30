@@ -42,6 +42,15 @@ clone_repository() {
     echo "Repository $REPO_NAME has been cloned to /workspace/$REPO_NAME"
 }
 
+# Function to install VS Code extensions
+install_vscode_extensions() {
+    sudo -u $USERNAME code --install-extension MS-CEINTL.vscode-language-pack-ja
+    sudo -u $USERNAME code --install-extension ms-toolsai.jupyter
+    sudo -u $USERNAME code --install-extension GitHub.vscode-pull-request-github
+    sudo -u $USERNAME code --install-extension GitHub.copilot
+    sudo -u $USERNAME code --install-extension ms-vsliveshare.vsliveshare
+}
+
 # Check if a user has been created
 if [ ! -f /etc/user_created ]; then
     create_user
@@ -66,5 +75,8 @@ else
     echo "Repository already cloned"
 fi
 
-# Start VS Code Server as the created user
-exec sudo -u $USERNAME code-server --bind-addr 0.0.0.0:8080 --auth none /workspace
+# Install VS Code extensions
+install_vscode_extensions
+
+# Start VS Code as the created user
+exec sudo -u $USERNAME code --user-data-dir /home/$USERNAME/.vscode --no-sandbox --disable-gpu --remote-debugging-port=9222 --disable-extensions --extensions-dir /home/$USERNAME/.vscode/extensions /workspace
