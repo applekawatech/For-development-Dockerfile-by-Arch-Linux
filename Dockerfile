@@ -22,8 +22,8 @@ RUN sed -i 's/#Color/Color/' /etc/pacman.conf && \
 # Update the system after pacman configuration changes
 RUN pacman -Syu --noconfirm
 
-# Install Anaconda using yay
-RUN su - builder -c "yay -S --noconfirm anaconda"
+# Install Anaconda using yay with debug symbols disabled
+RUN su - builder -c "yay -G anaconda && cd anaconda && makepkg -si --nocheck --skipinteg --skippgpcheck"
 
 # Initialize Anaconda
 RUN echo 'source /opt/anaconda/bin/activate' >> /etc/bash.bashrc
