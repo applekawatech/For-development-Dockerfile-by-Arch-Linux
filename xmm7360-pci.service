@@ -1,0 +1,11 @@
+[Unit]
+Description=XMM7360 PCI Modem Setup
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /path/to/xmm7360-pci/rpc/open_xdatachannel.py --apn your.apn.here
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
