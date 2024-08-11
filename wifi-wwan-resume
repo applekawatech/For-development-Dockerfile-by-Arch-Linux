@@ -1,0 +1,15 @@
+#!/bin/sh
+
+case $1/$2 in
+  pre/*)
+    # サスペンド前の処理
+    ;;
+  post/*)
+    # レジューム後の処理
+    systemctl restart systemd-networkd
+    for i in /sys/class/net/wl*; do
+      iw dev $(basename $i) set power_save off
+    done
+    nmcli radio wwan on
+    ;;
+esac
