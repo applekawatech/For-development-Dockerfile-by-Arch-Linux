@@ -1,0 +1,2 @@
+ACTION=="add", SUBSYSTEM=="net", KERNEL=="wl*", RUN+="/usr/bin/iw dev %k set power_save off"
+ACTION=="add", SUBSYSTEM=="net", KERNEL=="ww*", RUN+="/usr/bin/nmcli radio wwan on"
